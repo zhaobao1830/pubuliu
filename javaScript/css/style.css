@@ -5,6 +5,8 @@
 #main{
     position: relative;
 }
+
+/*确定框之间的间隔用padding,因为javaScript的offsetHight获取的高度包括padding*/
 .box{
     padding: 15px 0 0 15px;
     float: left;
