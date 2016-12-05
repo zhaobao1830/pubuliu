@@ -2,7 +2,26 @@
  * Created by zb on 2016/12/1.
  */
 window.onload=function () {
-    waterfall('main','box')
+    waterfall('main','box');
+    var dataInt={"data":[{"src":'../images/1.jpg'},{"src":'../images/2.jpg'},{"src":'../images/3.jpg'},{"src":'../images/4.jpg'}]}
+    window.onscroll=function () {
+        if(checkscrollside){
+            var oParent=document.getElementById('main');
+            //讲数据块渲染到当前页面的尾部
+            for(var i=0;i<dataInt.data.length;i++){
+                var oBx=document.createElement('div');
+                oBx.className='box';
+                oParent.appendChild(oBx);
+                var oPic=document.createElement('div');
+                oPic.className='pic';
+                oBx.appendChild(oPic);
+                var oImg=document.createElement('img');
+                oImg.src=dataInt.data[i].src;
+                oPic.appendChild(oImg);
+            }
+            waterfall('main','box');
+        }
+    }
 }
 
 function waterfall(parent,box) {
@@ -30,7 +49,6 @@ function waterfall(parent,box) {
             hArr[index]+=oBoxs[i].offsetHeight;
         }
     }
-    console.log(hArr)
 }
 
 function getByClass(parent,clsName) {
@@ -52,4 +70,17 @@ function getMInhIndex(arr,val) {
             return i;
         }
     }
+}
+
+/*
+* 检测是否具备了滚动条加载数据库的条件
+* */
+function checkscrollside() {
+    var oParent=document.getElementById('main');
+    var oBoxs=getByClass(oParent,'box');
+    //最后一个盒子的offsetTop加自己一半的高度
+    var lastBoxH=oBoxs[oBoxs.length-1].offsetTop+Math.floor(oBoxs[oBoxs.length-1].offsetHeight/2);
+    var scrollTop=document.body.scrollTop || document.documentElement.scrollTop; //滚动条的高度
+    var heigtht=document.body.clientHeight || document.documentElement.clientHeight; //浏览器可视区域高度
+    return (lastBoxH<(scrollTop+heigtht)) ? true : false;
 }
